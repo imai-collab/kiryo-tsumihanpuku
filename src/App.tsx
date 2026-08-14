@@ -41,6 +41,9 @@ const PIECE_NAMES: Record<string, string> = {
   RY: '龍',
 };
 
+const toFullWidth = (s: string) => s.replace(/[0-9]/g, c => String.fromCharCode(c.charCodeAt(0) + 0xFEE0));
+const getYourTurnMessage = (moveCount: number) => `あなたの番（${toFullWidth(moveCount.toString())}手目）です。`;
+
 const fillGoteHand = (shogiObj: any) => {
   const TOTAL_PIECES: Record<string, number> = { FU: 18, KY: 4, KE: 4, GI: 4, KI: 4, KA: 2, HI: 2 };
   const counts: Record<string, number> = { FU: 0, KY: 0, KE: 0, GI: 0, KI: 0, KA: 0, HI: 0 };
@@ -559,7 +562,7 @@ export default function App() {
   const [shogi, setShogi] = useState<any>(null);
   const [selectedSquare, setSelectedSquare] = useState<Position | null>(null);
   const [selectedHandPiece, setSelectedHandPiece] = useState<{ piece: string; color: Color } | null>(null);
-  const [message, setMessage] = useState<string>('あなたの番です。');
+  const [message, setMessage] = useState<string>(getYourTurnMessage(1));
   const [showCorrectSplash, setShowCorrectSplash] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [moveHistory, setMoveHistory] = useState<Move[]>([]);
@@ -1385,7 +1388,7 @@ SFEN形式の例: 7nl/1R3sk2/5pppp/9/9/9/9/9/9 b GS 1
       setShogi(newShogi);
       setSelectedSquare(null);
       setSelectedHandPiece(null);
-      setMessage('あなたの番です。');
+      setMessage(getYourTurnMessage(1));
       setIsGameOver(false);
       setIsGoteManualEntry(false);
       setMoveHistory([]);
@@ -1602,7 +1605,7 @@ SFEN形式の例: 7nl/1R3sk2/5pppp/9/9/9/9/9/9 b GS 1
 
     if (!isLegal) {
       setMessage('その手は指せません（反則手です）。');
-      setTimeout(() => setMessage(isGoteManualEntry ? '後手の手を入力してください。' : 'あなたの番です。'), 1500);
+      setTimeout(() => setMessage(isGoteManualEntry ? '後手の手を入力してください。' : getYourTurnMessage(moveHistory.length + 1)), 1500);
       return;
     }
 
@@ -1616,7 +1619,7 @@ SFEN形式の例: 7nl/1R3sk2/5pppp/9/9/9/9/9/9 b GS 1
       if (oppMoves.length === 0) {
         shogi.initializeFromSFENString(sfenBefore);
         setMessage('打ち歩詰めは禁手です。');
-        setTimeout(() => setMessage(isGoteManualEntry ? '後手の手を入力してください。' : 'あなたの番です。'), 2000);
+        setTimeout(() => setMessage(isGoteManualEntry ? '後手の手を入力してください。' : getYourTurnMessage(moveHistory.length + 1)), 2000);
         return;
       }
     }
@@ -1670,7 +1673,7 @@ SFEN形式の例: 7nl/1R3sk2/5pppp/9/9/9/9/9/9 b GS 1
     if (isGoteManualEntry) {
        setPreferredAiMovesMap(prev => ({ ...prev, [sfenBefore]: move }));
        setIsGoteManualEntry(false);
-       setMessage('あなたの番です。');
+       setMessage(getYourTurnMessage(moveHistory.length + 2));
        return;
     }
 
@@ -1691,7 +1694,7 @@ SFEN形式の例: 7nl/1R3sk2/5pppp/9/9/9/9/9/9 b GS 1
           setIsGameOver(true);
           setMessage('指す手がありません。失敗です。');
         } else {
-          setMessage('あなたの番です。');
+          setMessage(getYourTurnMessage(moveHistory.length + 3));
         }
         setShogi(cloneShogi(nextShogi));
       } else {
