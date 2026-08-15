@@ -1,6 +1,6 @@
 [
   {
-    "id": "1786807428754",
+    "id": "1786818695821",
     "title": "©kiryoアプリ　詰み筋反復ドリル357手 (2026/8/16)",
     "appTitle": "©kiryoアプリ　詰み筋反復ドリル357手",
     "problems": [
@@ -54,9 +54,9 @@
       },
       {
         "id": 16,
-        "title": "問題１５",
-        "description": "11手詰です。",
-        "initialSfen": "6g2/5+B1pk/5S3/8p/6r2/8N/9/9/9 b GSNrb2g2s2n4l16p 1"
+        "title": "問題１3",
+        "description": "7手詰です。",
+        "initialSfen": "6p2/5B1pS/5S2k/6sNp/9/9/9/9/9 b GN2rb3gs2n4l15p 1"
       },
       {
         "id": 17,
@@ -743,7 +743,7 @@
         "initialSfen": "5Rb1l/6p1k/9/8N/6B+R1/9/9/9/9 b 4g4s3n3l17p 1"
       }
     ],
-    "timestamp": 1786807428754
+    "timestamp": 1786818695831
   },
   {
     "id": "1786806799116",
